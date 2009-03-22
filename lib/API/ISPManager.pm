@@ -12,9 +12,15 @@ use Data::Dumper;
 
 our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract/;
 our @EXPORT_OK  = qw//;
-our $VERSION    = 0.01_01; # Developer only release
+our $VERSION    = 0.01_02; # Developer only release
 # our $VERSION  = 0.01;
 our $DEBUG      = '';
+
+=head1 NAME
+
+API::ISPManager - OOP interface to the ISPManager Hosting Panel API ( http://ispsystem.com )
+
+=cut
 
 # Main packages
 use API::ISPManager::ip;

@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               API-ISPManager
-version:            0.0101
-abstract:           ~
+version:            0.0102
+abstract:           OOP interface to the ISPManager Hosting Panel API ( http://ispsystem.com )
 author:
     - nrg <nrg@cpan.org>
 license:            unknown
