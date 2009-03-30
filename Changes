@@ -1,6 +1,9 @@
 Revision history for Perl extension API::ISPManager.
 
 0.01  Mon Dec 15 22:49:15 2008
-	- original version; created by h2xs 1.23 with options
+    - original version; created by h2xs 1.23 with options
 		-X -n API::ISPManager
+0.02  Mon Mar 30 23:49:15 2009
+    - Add examples
+
 

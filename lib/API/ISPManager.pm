@@ -12,13 +12,77 @@ use Data::Dumper;
 
 our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract/;
 our @EXPORT_OK  = qw//;
-our $VERSION    = 0.01_02; # Developer only release
-# our $VERSION  = 0.01;
+our $VERSION    = 0.02;
 our $DEBUG      = '';
 
 =head1 NAME
 
-API::ISPManager - OOP interface to the ISPManager Hosting Panel API ( http://ispsystem.com )
+API::ISPManager - interface to the ISPManager Hosting Panel API ( http://ispsystem.com )
+
+=head1 SYNOPSIS
+
+ use API::ISPManager;
+ 
+ my $connection_params = {
+    username => 'username',
+    password => 'qwerty',
+    host     => '11.22.33.44'
+    path     => 'manager',
+ };
+
+ ### Get all panel IP
+ my $ip_list = API::ISPManager::ip::list( $connection_params );
+
+ unless ($ip_list && ref $ip_list eq 'ARRAY' && scalar @$ip_list) {
+    die 'Cannot get ip list from ISP';
+ }
+
+ my $ip  = $ip_list->[0];
+ my $dname  = 'perlaround.ru';
+
+ my $client_creation_result = API::ISPManager::user::create( {
+    %{ $connection_params },
+    name      => 'user_login',
+    passwd    => 'user_password',
+    ip        => , 
+    preset    => 'template_name',
+    domain    => $dname,
+ });
+
+ # Switch off account:
+ my $suspend_result = API::ISPManager::user::disable( {
+    %{ $connection_params },
+    elid => $use_login,
+ } );
+
+ unless ( $suspend_result ) {
+    die "Cannot  suspend account";
+ }
+
+
+
+ # Switch on account
+ my $resume_result = API::ISPManager::user::enable( {
+    %{ $connection_params },
+    elid => $user_login,
+ } );
+
+ unless ( $resume_result ) {
+    die "Cannot  suspend account";
+ }
+
+
+
+ # Delete account
+ my $delete_result = API::ISPManager::user::delete( {
+    %{ $connection_params },
+    elid => $login,
+ } );
+
+ unless ( $delete_result ) {
+    die "Cannot delete account";
+ }
+
 
 =cut
 
