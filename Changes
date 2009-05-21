@@ -5,5 +5,5 @@ Revision history for Perl extension API::ISPManager.
 		-X -n API::ISPManager
 0.02  Mon Mar 30 23:49:15 2009
     - Add examples
-
-
+0.03  Mon May 21 23:49:15 2009
+    - Many additions

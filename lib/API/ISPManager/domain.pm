@@ -10,7 +10,7 @@ sub list {
 
     return API::ISPManager::query_abstract(
         params => $params,
-        func   => 'wwwdomaina'
+        func   => 'wwwdomain'
     );
 }
 

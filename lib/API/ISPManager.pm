@@ -10,9 +10,9 @@ use XML::LibXML;
 use XML::Simple;
 use Data::Dumper;
 
-our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract/;
+our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract is_ok get_error/;
 our @EXPORT_OK  = qw//;
-our $VERSION    = 0.02;
+our $VERSION    = 0.03;
 our $DEBUG      = '';
 
 =head1 NAME
@@ -97,7 +97,29 @@ use API::ISPManager::db;
 use API::ISPManager::preset;
 use API::ISPManager::stat;
 use API::ISPManager::services;
+use API::ISPManager::ftp;
 
+
+use Data::Dumper;
+
+# Last raw answer from server 
+our $last_answer = ''; 
+
+# Public!
+sub is_ok {
+    my $answer = shift;
+
+    return '' unless $answer && ref $answer eq 'HASH' && $answer->{success};
+}
+
+
+sub get_error {
+    my $answer = shift;
+
+    return '' if is_ok($answer); # ok == no error
+
+    return Dumper( $answer->{error} );
+}
 
 # Get data from @_
 sub get_params {
@@ -319,7 +341,7 @@ sub refs {
     return ref $ref;
 }
 
-# Check server answer result
+# INTERNAL!!! Check server answer result
 # STATIC(data_block)
 sub is_success {
     my $data_block = shift;
