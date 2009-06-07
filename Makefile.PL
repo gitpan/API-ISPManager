@@ -10,7 +10,8 @@ WriteMakefile(
         'XML::LibXML'    => '0',
         'Crypt::SSLeay'  => '0',
         # 'LWP::Protocol::https::Socket' => '0',
-        'XML::Simple' => '0',
+        'XML::Simple'    => '0',
+        'Getopt::Long'   => '0',
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/API/ISPManager.pm', # retrieve abstract from module

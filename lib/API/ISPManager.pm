@@ -10,9 +10,28 @@ use XML::LibXML;
 use XML::Simple;
 use Data::Dumper;
 
+# Main packages
+use API::ISPManager::ip;
+use API::ISPManager::user;
+use API::ISPManager::domain;
+
+# Addition packages
+use API::ISPManager::backup;
+use API::ISPManager::db;
+use API::ISPManager::preset;
+use API::ISPManager::stat;
+use API::ISPManager::services;
+use API::ISPManager::ftp;
+
+# VDSManager
+use API::ISPManager::vds;
+use API::ISPManager::diskpreset;
+use API::ISPManager::vdspreset;
+
+
 our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract is_ok get_error/;
 our @EXPORT_OK  = qw//;
-our $VERSION    = 0.03;
+our $VERSION    = 0.04;
 our $DEBUG      = '';
 
 =head1 NAME
@@ -85,22 +104,6 @@ API::ISPManager - interface to the ISPManager Hosting Panel API ( http://ispsyst
 
 
 =cut
-
-# Main packages
-use API::ISPManager::ip;
-use API::ISPManager::user;
-use API::ISPManager::domain;
-
-# Addition packages
-use API::ISPManager::backup;
-use API::ISPManager::db;
-use API::ISPManager::preset;
-use API::ISPManager::stat;
-use API::ISPManager::services;
-use API::ISPManager::ftp;
-
-
-use Data::Dumper;
 
 # Last raw answer from server 
 our $last_answer = ''; 
