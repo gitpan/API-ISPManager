@@ -31,7 +31,7 @@ use API::ISPManager::vdspreset;
 
 our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract is_ok get_error/;
 our @EXPORT_OK  = qw//;
-our $VERSION    = 0.04;
+our $VERSION    = 0.05;
 our $DEBUG      = '';
 
 =head1 NAME

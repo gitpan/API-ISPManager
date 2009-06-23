@@ -21,6 +21,11 @@ To install this module type the following:
    make test
    make install
 
+INSTALLTION on Debian
+
+apt-get install libwww-perl make libxml-simple-perl libnet-ssleay-perl libcrypt-ssleay-perl libexporter-lite-perl libtest-simple-perl
+cpan API::ISPManager
+
 DEPENDENCIES
 
 This module requires these other modules and libraries:

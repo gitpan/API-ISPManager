@@ -57,8 +57,10 @@ my $create_result = create_vps(
     node_id     => $var_node_id,    # номер Ноды
 );
 
-if ( $create_result->{ok} && $create_result->{ip} ) {
-    print "$create_result->{ip}\n";
+### warn Dumper($create_result);
+
+if ( $create_result && $create_result->{ok} && $create_result->{ip} && $create_result->{veid} ) {
+    print "$create_result->{ip}|$create_result->{veid}\n";
     exit 0; # всё окей!
 } else {
     print "error\n";
@@ -253,7 +255,14 @@ sub create_vps {
         %$vps_preset_details, # параметры ВПС тарифа
     } );
 
-    return $create_vps_result;
+    if ($create_vps_result && ref $create_vps_result eq 'HASH' ) {
+        return {
+            %$create_vps_result,
+            veid => $veid,
+        }
+    } else {
+        return '';
+    }
 }
 
 
