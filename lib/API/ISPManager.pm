@@ -22,6 +22,7 @@ use API::ISPManager::preset;
 use API::ISPManager::stat;
 use API::ISPManager::services;
 use API::ISPManager::ftp;
+use API::ISPManager::misc;
 
 # VDSManager
 use API::ISPManager::vds;
@@ -31,7 +32,7 @@ use API::ISPManager::vdspreset;
 
 our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract is_ok get_error/;
 our @EXPORT_OK  = qw//;
-our $VERSION    = 0.05;
+our $VERSION    = 0.06;
 our $DEBUG      = '';
 
 =head1 NAME
@@ -45,7 +46,7 @@ API::ISPManager - interface to the ISPManager Hosting Panel API ( http://ispsyst
  my $connection_params = {
     username => 'username',
     password => 'qwerty',
-    host     => '11.22.33.44'
+    host     => '11.22.33.44',
     path     => 'manager',
  };
 
@@ -63,7 +64,7 @@ API::ISPManager - interface to the ISPManager Hosting Panel API ( http://ispsyst
     %{ $connection_params },
     name      => 'user_login',
     passwd    => 'user_password',
-    ip        => , 
+    ip        => '11.11.22.33', 
     preset    => 'template_name',
     domain    => $dname,
  });
@@ -300,6 +301,8 @@ sub filter_hash {
 sub get_auth_id {
     my %params_raw = @_;
 
+    warn 'get_auth_id params: ' . Debug(\%params_raw)  if $DEBUG;
+
     my $params = filter_hash(
         \%params_raw,
         [ 'host', 'path', 'allow_http', 'username', 'password' ]
@@ -377,7 +380,9 @@ sub query_abstract {
     my $func_name   = $params{func};
     my $fake_answer = $params{fake_answer} || '';
 
-    return '' unless $params_raw && $func_name;
+    warn 'query_abstract ' . Dumper( \%params ) if $DEBUG;
+
+    return '' unless $params_raw && $func_name; 
 
     my $allowed_fields = $params{allowed_fields} || [ 'host', 'path', 'allow_http' ];
     # TODO сделать сцепку массивов тут!!!!
@@ -385,16 +390,19 @@ sub query_abstract {
     my $xml_parser_params = $params{parser_params};
 
     my $auth_id = $fake_answer  ? '112323' : get_auth_id( %$params_raw );
+    warn "Auth_id: $auth_id\n" if $DEBUG;
 
-    if ($auth_id) {
+    if ($auth_id or $func_name eq 'ftp') { # ftp hacked by authinfo
         my $params = filter_hash( $params_raw, $allowed_fields);
-
+    
         my $query_string = mk_full_query_string( {
-            auth => $auth_id,
+            ( $func_name eq 'ftp' ? ( ) : ( auth => $auth_id ) ), # for ftp auth not used, only authinfo
             func => $func_name,
             out  => 'xml',
             %$params,
         } );
+
+        warn Dumper $query_string if $DEBUG;
 
         return process_query(
             query_string  => $query_string,
@@ -410,6 +418,7 @@ sub query_abstract {
         #
 
     } else {
+        warn "auth_id not found or func type not ftp" if $DEBUG;
         return '';
     }
 }

@@ -15,5 +15,11 @@ WriteMakefile(
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/API/ISPManager.pm', # retrieve abstract from module
-       AUTHOR         => 'nrg <nrg@cpan.org>') : ()),
+        'EXE_FILES' => [
+            'vdsmanager.pl',
+            'add_database.pl',
+            'add_domain.pl',
+            'add_mailbox.pl',
+        ],
+        AUTHOR         => 'nrg <nrg@cpan.org>') : ()),
 );

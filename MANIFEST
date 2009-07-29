@@ -1,3 +1,6 @@
+add_database.pl
+add_domain.pl
+add_mailbox.pl
 Changes
 lib/API/ISPManager.pm
 lib/API/ISPManager/backup.pm
@@ -7,6 +10,7 @@ lib/API/ISPManager/dns.pm
 lib/API/ISPManager/domain.pm
 lib/API/ISPManager/ftp.pm
 lib/API/ISPManager/ip.pm
+lib/API/ISPManager/misc.pm
 lib/API/ISPManager/preset.pm
 lib/API/ISPManager/services.pm
 lib/API/ISPManager/stat.pm

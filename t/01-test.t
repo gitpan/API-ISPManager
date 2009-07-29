@@ -30,7 +30,7 @@ $a = 'is_success';
 
 ok(! is_success(), $a);
 ok(! is_success( { error => {}, data => {} } ), $a);
-ok(  is_success( { data => {} } ), $a);
+ok(  is_success( { data  => {} } ), $a);
 ok(! is_success( { } ), $a);
 
 $a = 'get_data';
@@ -112,7 +112,7 @@ $a = 'mk_query_to_server';
 is( API::ISPManager::mk_query_to_server( '' ), '', $a );
 
 my %correct_params = (
-    username => 'root',
+    username => $ENV{username} || 'root',
     password => $ENV{password},
     host     => $test_host,
     path     => 'manager',
@@ -317,6 +317,7 @@ no warnings 'once';
 
 $API::ISPManager::DEBUG = 0;
 
+
 ### ONLINE TESTS
 exit if !$ONLINE;
 
@@ -334,7 +335,7 @@ is( get_auth_id(
 my $auth_id;
 
 like( $auth_id = get_auth_id(
-        username => 'root',
+        username => $ENV{username} || 'root',
         password => $ENV{password},
         host     => $test_host,
         path     => 'manager',
@@ -355,46 +356,48 @@ is(
 
 my $ip_list = API::ISPManager::ip::list( { %correct_params } );
 
-warn Dumper( $ip_list );
+diag "Get ips from panel: " . Dumper( $ip_list );
 
 if ($ip_list && ref $ip_list eq 'ARRAY' && scalar @$ip_list) {
     my $ip  = $ip_list->[0];
     
     if ($ip) {
-        warn $ip;
+        diag $ip;
 
-        warn Dumper( API::ISPManager::user::create( {
+        diag Dumper( API::ISPManager::user::create( {
             %correct_params,
             name      => 'nrgxxxxxapi',
             passwd    => 'qwerty',
             ip        => $ip, 
             preset    => 'Host-1',
             domain    => 'nrg.name',
-        }) );
+        } ) );
+
+        diag Dumper( API::ISPManager::ftp::list( {
+            %correct_params,
+            authinfo => 'username:password',
+            su       => 'su_as_username',
+        } ) );
+
     
-        warn Dumper( API::ISPManager::user::disable( {
+        diag Dumper( API::ISPManager::user::disable( {
             %correct_params,
             elid      => 'nrgxxxxxapi',
-        }) );
+        } ) );
 
 
-        warn Dumper( API::ISPManager::user::enable( {
+        diag Dumper( API::ISPManager::user::enable( {
             %correct_params,
             elid      => 'nrgxxxxxapi',
-        }) );
+        } ) );
 
-=head 
-
-        warn Dumper( API::ISPManager::user::delete( {
+        diag Dumper( API::ISPManager::user::delete( {
             %correct_params,
             elid      => 'nrgxxxxxapi',
-        }) );
-=cut
+        } ) );
 
     }
 }
-
-
 
 # warn Dumper( API::ISPManager::domain::list( { %correct_params } ) );
 

@@ -14,8 +14,12 @@ sub list {
         fake_answer => shift,
     );
 
-    if ( $server_answer && $server_answer->{elem} && ref $server_answer->{elem} eq 'HASH' ) {
+    if ( $server_answer         &&
+         $server_answer->{elem} &&
+         ref $server_answer->{elem} eq 'HASH' ) {
+
         return { data =>  $server_answer->{elem} };
+
     }
 
     return $server_answer;
@@ -35,8 +39,12 @@ sub list {
         fake_answer => shift,
     );
 
-    if ( $server_answer && $server_answer->{elem} && ref $server_answer->{elem} eq 'HASH' ) {
+    if ( $server_answer         &&
+         $server_answer->{elem} &&
+         ref $server_answer->{elem} eq 'HASH' ) {
+
         return { data =>  $server_answer->{elem} };
+
     }
 
     return $server_answer;

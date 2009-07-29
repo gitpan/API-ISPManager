@@ -6,7 +6,15 @@ use warnings;
 use API::ISPManager;
 
 sub list {
+    my $params = shift;
 
+    my $result = API::ISPManager::query_abstract(
+        params => $params,
+        func   => 'ftp',
+        allowed_fields => [ qw( host path allow_http     su authinfo) ], # TODO: hack with authinfo!!!
+    );
+
+    return $result;
 }
 
 

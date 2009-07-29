@@ -9,3 +9,7 @@ Revision history for Perl extension API::ISPManager.
     - Many additions
 0.04  Mon Jun 8  03:59:15 2009
     - Add VDSManager support
+0.05
+    - Small fixes
+0.06
+    - Add Apache reload support
