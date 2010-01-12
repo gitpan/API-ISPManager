@@ -13,3 +13,6 @@ Revision history for Perl extension API::ISPManager.
     - Small fixes
 0.06
     - Add Apache reload support
+0.07
+    - Some fixes in API::ISPManager::users.pm
+    - Add file manipulation support

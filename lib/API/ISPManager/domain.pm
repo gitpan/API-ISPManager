@@ -21,7 +21,7 @@ sub create {
     my $result = API::ISPManager::query_abstract(
         params => { %$params, sok => 'yes' }, # чтобы создание разрешить
         func   => 'wwwdomain.edit', 
-        allowed_fields => [  qw( host path allow_http     domain sok name owner ip docroot cgi php ssi ror ssl admin ) ],
+        allowed_fields => [  qw( host path allow_http     domain alias sok name owner ip docroot cgi php ssi ror ssl sslport admin ) ],
     );
 
     $API::ISPManager::last_answer = $result;

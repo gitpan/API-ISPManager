@@ -6,7 +6,7 @@ use lib qw(../..);
 
 use Exporter::Lite;
 use LWP::UserAgent;
-use XML::LibXML;
+#use XML::LibXML;
 use XML::Simple;
 use Data::Dumper;
 
@@ -14,6 +14,7 @@ use Data::Dumper;
 use API::ISPManager::ip;
 use API::ISPManager::user;
 use API::ISPManager::domain;
+use API::ISPManager::mailbox;
 
 # Addition packages
 use API::ISPManager::backup;
@@ -23,17 +24,21 @@ use API::ISPManager::stat;
 use API::ISPManager::services;
 use API::ISPManager::ftp;
 use API::ISPManager::misc;
+use API::ISPManager::file;
 
 # VDSManager
 use API::ISPManager::vds;
 use API::ISPManager::diskpreset;
 use API::ISPManager::vdspreset;
 
+# BillManager
+use API::ISPManager::software;
+use API::ISPManager::order;
 
-our @EXPORT     = qw/get_auth_id refs is_success get_data query_abstract is_ok get_error/;
-our @EXPORT_OK  = qw//;
-our $VERSION    = 0.06;
-our $DEBUG      = '';
+our @EXPORT    = qw/get_auth_id refs is_success get_data query_abstract is_ok get_error/;
+our @EXPORT_OK = qw//;
+our $VERSION   = 0.07;
+our $DEBUG     = '';
 
 =head1 NAME
 
@@ -204,6 +209,7 @@ sub mk_query_to_server {
     my $query_string = shift;
 
     return '' unless $query_string;
+    warn "Query string: $query_string\n" if $DEBUG;
 
     my $ua = LWP::UserAgent->new;
     $ua->agent("Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
@@ -301,7 +307,7 @@ sub filter_hash {
 sub get_auth_id {
     my %params_raw = @_;
 
-    warn 'get_auth_id params: ' . Debug(\%params_raw)  if $DEBUG;
+    warn 'get_auth_id params: ' . Dumper(\%params_raw)  if $DEBUG;
 
     my $params = filter_hash(
         \%params_raw,

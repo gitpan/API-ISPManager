@@ -15,6 +15,19 @@ sub list {
     );
 }
 
+# Âîçâğàùàåò ÷èñëî àêòèâíûõ ïîëüçîâàòåëåé
+sub active_user_count {
+    my $params = shift;
+    my $ans = API::ISPManager::user::list($params);
+    
+    my $result = 0;
+    foreach my $key (keys %{$ans->{elem}}) {
+        $result++ unless exists $ans->{elem}->{$key}->{disabled};
+    }
+
+    return $result;
+}
+
 # Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ ĞºĞ»Ğ¸ĞµĞ½Ñ‚Ğ° (Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾, Ğ²Ğ¼ĞµÑÑ‚Ğµ Ñ Ğ´Ğ¾Ğ¼ĞµĞ½Ğ¾Ğ¼)
 sub create {
     my $params = shift;
@@ -26,12 +39,13 @@ sub create {
     );
 
     $API::ISPManager::last_answer = $result;
+    #warn Dumper($API::ISPManager::last_answer);
 
     if ($result &&
         ref $result eq 'HASH' &&
         (
             $result->{ok} or
-            ( $result->{error} && ref $result->{error} eq 'HASH' && $result->{error}->{code} eq '2' )  # already exists
+            ( $result->{error} && ref $result->{error} eq 'HASH' && $result->{error}->{code} eq '2' && $result->{error}->{obj} eq 'user' )  # already exists
         )
     ) {
         return 1;  # { success => 1 };
@@ -49,7 +63,7 @@ sub edit {
     my $result = API::ISPManager::query_abstract(
         params => $params,
         func   => 'user.edit',
-        allowed_fields => [  qw( host path allow_http     sok elid name domain email preset ip passwd ftplimit disklimit ssl ssi phpmod safemode  maillimit domainlimit webdomainlimit maildomainlimit baselimit baseuserlimit bandwidthlimit) ],
+        allowed_fields => [  qw( host path allow_http     sok elid name domain email preset ip passwd ftplimit disklimit ssl ssi phpmod safemode  maillimit domainlimit webdomainlimit maildomainlimit baselimit baseuserlimit bandwidthlimit phpfcgi) ],
     );
 
     return $result;
@@ -60,6 +74,8 @@ sub delete {
     my $params = shift;
 
     my $result = abstract_bool_manipulate($params, 'user.delete');
+ 
+    $API::ISPManager::last_answer = $result;
 
     if ($result && ref $result eq 'HASH' && $result->{ok}) {
         return 1;
@@ -90,6 +106,8 @@ sub enable {
 
     my $result = abstract_bool_manipulate($params, 'user.enable');
 
+    $API::ISPManager::last_answer = $result;
+
     if ($result && ref $result eq 'HASH' && $result->{ok}) {
         return 1;
     } else {
@@ -103,6 +121,8 @@ sub disable {
     my $params = shift;
 
     my $result = abstract_bool_manipulate($params, 'user.disable');
+
+    $API::ISPManager::last_answer = $result;
 
     if ($result && ref $result eq 'HASH' && $result->{ok}) {
         return 1;

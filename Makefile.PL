@@ -7,7 +7,7 @@ WriteMakefile(
     VERSION_FROM      => 'lib/API/ISPManager.pm',
     PREREQ_PM         => {
         'Exporter::Lite' => '0',
-        'XML::LibXML'    => '0',
+        # 'XML::LibXML'    => '0',
         'Crypt::SSLeay'  => '0',
         # 'LWP::Protocol::https::Socket' => '0',
         'XML::Simple'    => '0',
@@ -18,7 +18,7 @@ WriteMakefile(
         'EXE_FILES' => [
             'vdsmanager.pl',
             'add_database.pl',
-            'add_domain.pl',
+            'add_www_domain.pl',
             'add_mailbox.pl',
         ],
         AUTHOR         => 'nrg <nrg@cpan.org>') : ()),

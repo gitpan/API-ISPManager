@@ -25,6 +25,26 @@ sub list {
     return $server_answer;
 }
 
+
+sub create {
+   my $params = shift;
+    
+    my $result = API::ISPManager::query_abstract(
+        params          => { %$params, sok => 'yes' },
+        func            => 'db.edit',
+        allowed_fields  => [ qw( host path allow_http  sok name dbtype owner dbencoding dbuser dbusername dbpassword dbconfirm dbuserhost ) ],
+    );
+
+    $API::ISPManager::last_answer = $result;     
+
+    if ($result && $result->{ok}) {
+        return 1;
+    } else {
+        return '';
+    }
+}
+
+
 package API::ISPManager::db_user;
 
 use API::ISPManager;
